@@ -61,7 +61,7 @@ sap.ui.define([
                 oSelectedItemData
             );
 
-            oFCL.setLayout("TwoColumnsBeginExpanded");
+            oFCL.setLayout("TwoColumnsMidExpanded");
         },
 
     });

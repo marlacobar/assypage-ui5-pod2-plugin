@@ -56,5 +56,11 @@ sap.ui.define([
             return DateFormat.getDateTimeWithTimezoneInstance().format(oDate, sTimezone);
         },
 
+        findDataField(aDataValues, sDataField) {
+            const oDataValue = aDataValues.find((item) => item.DATA_FIELD_LABEL == sDataField);
+
+            return oDataValue?.DATA_FIELD_VALUE ?? '';
+        },
+
     };
 });

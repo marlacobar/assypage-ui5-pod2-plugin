@@ -47,7 +47,7 @@
                                     <Column>
                                         <Text text="{i18n>asBuilt.tbl.component}" />
                                     </Column>
-                                    <Column>
+                                    <Column visible="false">
                                         <Text text="{i18n>asBuilt.tbl.version}" />
                                     </Column>
                                     <Column visible="false">
@@ -58,6 +58,12 @@
                                     </Column>
                                     <Column >
                                         <Text text="{i18n>asBuilt.tbl.qtyAssembled}" />
+                                    </Column>
+                                    <Column>
+                                        <Text text="{i18n>asBuilt.tbl.batchNumber}" />
+                                    </Column>
+                                    <Column>
+                                        <Text text="{i18n>asBuilt.tbl.serialNumber}" />
                                     </Column>
                                     <Column>
                                         <Text text="{i18n>asBuilt.tbl.assemblyType}" />
@@ -75,11 +81,27 @@
                                 <items>
                                     <ColumnListItem vAlign="Middle">
                                         <cells>
-                                            <ObjectIdentifier title="{AsBuilt>BOM_COMPONENT_MATERIAL}" text="{AsBuilt>MATERIAL_DESCRIPTION}" />
+                                            <ObjectIdentifier 
+                                                title="{AsBuilt>BOM_COMPONENT_MATERIAL}/{AsBuilt>BOM_COMPONENT_MATERIAL_VERSION}" 
+                                                text="{AsBuilt>MATERIAL_DESCRIPTION}" />
                                             <Text text="{AsBuilt>BOM_COMPONENT_MATERIAL_VERSION}" />
                                             <Text text="{AsBuilt>state}" />
                                             <ObjectNumber number="{AsBuilt>QUANTITY_IN_BASE_UOM}" unit="{AsBuilt>BASE_UOM}" />
                                             <ObjectNumber number="{AsBuilt>QUANTITY_IN_REPORTED_UOM}" unit="{AsBuilt>REPORTED_UOM}" />
+                                            <Text text="{
+                                                parts: [
+                                                    { path: 'AsBuilt>DATA_FIELDS' },
+                                                    { value: 'Batch Number' }
+                                                ],
+                                                formatter: '.formatter.findDataField'
+                                            }" />
+                                            <Text text="{
+                                                parts: [
+                                                    { path: 'AsBuilt>DATA_FIELDS' },
+                                                    { value: 'Serial Number' }
+                                                ],
+                                                formatter: '.formatter.findDataField'
+                                            }" />
                                             <ObjectStatus
                                                 text="{
                                                     parts: [
