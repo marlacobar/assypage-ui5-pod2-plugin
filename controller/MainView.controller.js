@@ -95,8 +95,8 @@ sap.ui.define([
                 IN_COMPONENT: sFindComponent
             };
 
-            const oBomComponents = await this.Commons.getSfcDetail(oParams);
-            
+            try {
+                const oBomComponents = await Commons.getSfcDetail(oParams);    
 
             // ===========================================================================
             // Async search for assembled components
@@ -106,12 +106,12 @@ sap.ui.define([
                 componentState: sComponentState
             };
 
-            this.Commons.getAssembledComponents(oAssyParams, oBomComponents, oAsBuiltModel, oViewModel)
-                .then((oData) => {})
-                .catch((oError) => {
+                Commons.getAssembledComponents(oAssyParams, oBomComponents, oAsBuiltModel, oViewModel);
+
+            } catch (oError) {
                     oViewModel.setProperty("/busy", false);
                     MessageToast.show(oError.message);
-                });
+            }
         },
 
     });

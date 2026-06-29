@@ -52,10 +52,15 @@ sap.ui.define([
             const sApiPath = '/pe/api/v1/process/processDefinitions/start?key=REG_abce480f-fd10-4dde-945f-0594d273a550&async=false',
                 sUrl = `${ApiPaths.API_GATEWAY_MS_PATH}${sApiPath}`;
 
+            try {
             const response = await RestClient.post(sUrl, oParams);
             const oData = JSON.parse(response.sOutput);
 
             return oData;
+
+            } catch (error) {
+                throw new Error(error.body?.details[0]?.message);
+            }
         },
 
 
