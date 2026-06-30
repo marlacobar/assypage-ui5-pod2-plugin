@@ -28,34 +28,37 @@ sap.ui.define([
     const { MessageBox, MessageToast } = MobileLibrary;
 
     return Controller.extend("mhp.pod2.zplugins.AsBuiltReportPlugin.controller.MainView", {
-        Commons: Commons,
-        formatter: formatter,
 
+        /**
+         * Called when the widget is initialized.
+         * @override
+         */
         onInit: function () {
             const oView = this.getView();
             const oResourceModel = new sap.ui.model.resource.ResourceModel({ bundleName: "mhp.pod2.zplugins.AsBuiltReportPlugin.i18n.i18n" });
             oView.setModel(oResourceModel, "i18n");
 
-            // this.oFilterBar = oView.byId("filterBar");
-            // const oFilters = PodContext.getFilters();
-
             const sPlant = PodContext.getPlant(),
-                sPlantTimeZone = PodContext.getPlantTimeZone();
+                sPlantTimezone = PodContext.getPlantTimeZone(),
+                sUserLanguage = PodContext.get(ModelPath.UserLanguage);
+
             let oViewModel = new JSONModel({
                 busy: false,
                 plant: sPlant,
-                plantTimeZone: sPlantTimeZone
-                // filters: oFilters
+                plantTimezone: sPlantTimezone,
+                language: sUserLanguage,
             });
             oView.setModel(oViewModel, "viewModel");
             oView.setModel(new JSONModel(), "AsBuilt");
-            // this._getFilters();
         },
 
-        onAfterRendering: function () { },
-
-        onExit: function () { },
-
+        /**
+         * Handles the search action for the As-Built report.
+         *
+         * @async
+         * @function onSearch
+         * @returns {Promise<void>} A promise that resolves when the search flow completes.
+         */
         onSearch: async function () {
             const oView = this.getView(),
                 oViewModel = oView.getModel("viewModel"),
@@ -97,20 +100,19 @@ sap.ui.define([
 
             try {
                 const oBomComponents = await Commons.getSfcDetail(oParams);    
-
-            // ===========================================================================
-            // Async search for assembled components
-            const oAssyParams = {
-                plant: oViewModelData.plant,
-                sfc: sSfc,
-                componentState: sComponentState
-            };
+            
+                // Async search for assembled components
+                const oAssyParams = {
+                    plant: oViewModelData.plant,
+                    sfc: sSfc,
+                    componentState: sComponentState
+                };
 
                 Commons.getAssembledComponents(oAssyParams, oBomComponents, oAsBuiltModel, oViewModel);
 
             } catch (oError) {
-                    oViewModel.setProperty("/busy", false);
-                    MessageToast.show(oError.message);
+                oViewModel.setProperty("/busy", false);
+                MessageToast.show(oError.message);
             }
         },
 

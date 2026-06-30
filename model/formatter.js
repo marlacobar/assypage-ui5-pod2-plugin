@@ -6,10 +6,23 @@ sap.ui.define([
     "use strict";
 
     return {
+        /**
+         * Formats a material and its version as a single display value.
+         *
+         * @param {string} sMaterial - Material identifier.
+         * @param {string} sVersion - Material version.
+         * @returns {string} A formatted material/version string.
+         */
         getValueAndVersion: function (sMaterial, sVersion) {
             return sMaterial ? `${sMaterial}/${sVersion}` : '';
         },
 
+        /**
+         * Returns the localized label for the given event type.
+         *
+         * @param {string} sEventType - Event type code.
+         * @returns {string} The localized event type text.
+         */
         getEventTypeText: function (sEventType) {
             const oBundle = new sap.ui.model.resource.ResourceModel(
                 { bundleName: "mhp.pod2.zplugins.AsBuiltReportPlugin.i18n.i18n" }).getResourceBundle();
@@ -26,6 +39,12 @@ sap.ui.define([
             }
         },
 
+        /**
+         * Returns the UI state for the given event type.
+         *
+         * @param {string} sEventType - Event type code.
+         * @returns {string} The corresponding UI state value.
+         */
         getEventTypeState: function (sEventType) {
             switch (sEventType) {
                 case 'COMPONENT_REMOVE':
@@ -56,7 +75,16 @@ sap.ui.define([
             return DateFormat.getDateTimeWithTimezoneInstance().format(oDate, sTimezone);
         },
 
+        /**
+         * Finds a data field value by its label within a data field array.
+         *
+         * @param {Array<Object>} aDataValues - List of data field values.
+         * @param {string} sDataField - Data field label to search for.
+         * @returns {string} The matching data field value or an empty string.
+         */
         findDataField(aDataValues, sDataField) {
+            if (!aDataValues) return;
+
             const oDataValue = aDataValues.find((item) => item.DATA_FIELD_LABEL == sDataField);
 
             return oDataValue?.DATA_FIELD_VALUE ?? '';
